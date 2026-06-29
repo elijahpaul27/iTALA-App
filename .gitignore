@@ -4,6 +4,7 @@ node_modules/
 # Build and packaging output
 dist/
 release/
+release-build/
 out/
 
 # Local Electron/Vite state

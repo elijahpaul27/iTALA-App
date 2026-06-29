@@ -11,25 +11,49 @@
     "dev:web": "vite --host 127.0.0.1 --port 5174",
     "build": "vite build",
     "test": "vitest run",
-    "dist": "npm run build && electron-builder",
-    "dist:win": "npm run build && electron-builder --win nsis",
+    "pack": "npm run build && electron-builder --dir --win",
+    "dist": "npm run build && electron-builder --win nsis",
+    "dist:win": "npm run dist",
     "preview": "vite preview",
     "start": "electron ."
   },
   "build": {
-    "appId": "ph.edu.deped.itala",
+    "appId": "com.itala.app",
     "productName": "iTALA",
-    "npmRebuild": false,
+    "npmRebuild": true,
+    "buildDependenciesFromSource": false,
     "directories": {
-      "output": "release"
+      "output": "release-build"
     },
     "files": [
       "dist/**/*",
-      "electron/**/*",
+      "electron/main.js",
+      "electron/preload.cjs",
+      "electron/auditCore.js",
       "migrations/**/*",
       "src/db/schema.sql",
       "src/utils/exportService.js",
       "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "src/db/schema.sql",
+        "to": "database/schema.sql"
+      },
+      {
+        "from": "migrations",
+        "to": "migrations",
+        "filter": [
+          "**/*.sql"
+        ]
+      },
+      {
+        "from": "templates",
+        "to": "templates",
+        "filter": [
+          "**/*"
+        ]
+      }
     ],
     "asarUnpack": [
       "node_modules/sqlite3/**/*"
